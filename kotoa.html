@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kotoa Opiskelija-asunnot</title>
+    <link rel="stylesheet" href="Style_kotoa.css">
+</head>
+<body>
+ <!-- YLÄPALKKI -->
+    <header>
+        <div class="logo-area">
+            <a href="#" class="logo">Kotoa</a>
+            <span class="tag-student">Opiskelija-asunnot</span>
+        </div>
+
+        <ul class="nav-steps">
+            <li class="nav-step active" id="nav-1">1. Asunnot</li>
+            <li class="nav-step" id="nav-2">2. Valinta</li>
+            <li class="nav-step" id="nav-3">3. Sähkö</li>
+            <li class="nav-step" id="nav-4">4. Sopimus</li>
+        </ul>
+
+        <div class="user-info">
+            Helsingin yliopisto <span class="user-badge">✓ Vahvistettu</span>
+        </div>
+    </header>
+
+    <main>
+        <!-- VAIHE 1: HAKUEHDOT -->
+        <div class="step-page active" id="step-1">
+            <div class="step-header">
+                <h1 class="step-title">1. Löydä opiskelija-asunto</h1>
+                <p class="step-subtitle">Valitse sijainti, asumismuoto ja budjetti.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Sijainti tai oppilaitos</label>
+                <input type="text" id="location" value="Otaniemi, Espoo (Aalto)" placeholder="Kirjoita kaupunki tai koulu">
+            </div>
+
+            <div class="form-group">
+                <label>Asumismuoto</label>
+                <div class="option-grid">
+                    <div class="option-card selected" onclick="selectOption(this)">
+                        <strong>Yksin</strong>
+                        <p style="font-size: 12px; color: #666;">Itsenäinen yksiö</p>
+                    </div>
+                    <div class="option-card" onclick="selectOption(this)">
+                        <strong>Kimppakämppä</strong>
+                        <p style="font-size: 12px; color: #666;">Oma huone jaetussa</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="budget">Maksimibudjetti (€/kk)</label>
+                <input type="range" id="budget" min="300" max="1000" step="50" value="550" oninput="updateBudgetValue(this.value)" style="width: 100%;">
+                <p style="text-align: right; font-weight: bold; color: var(--paavari);" id="budget-val">550 €/kk</p>
+            </div>
+
+            <div class="btn-container" style="justify-content: flex-end;">
+                <button class="btn" onclick="goToStep(2)">Näytä vapaat asunnot (3) &rarr;</button>
+            </div>
+        </div>
+
+        <!-- VAIHE 2: ASUNNON VALINTA -->
+        <div class="step-page" id="step-2">
+            <div class="step-header">
+                <h2 class="step-title">2. Valitse asunto</h2>
+                <p class="step-subtitle">Löydetyt kohteet kriteereilläsi.</p>
+            </div>
+
+            <div class="apartment-card">
+                <div class="apartment-info">
+                    <h3>Jämeräntaival 7 B</h3>
+                    <p>Yksiö • 24m²</p>
+                    <span class="tag-distance">🚶 10 min kampukselle</span>
+                </div>
+                <div>
+                    <div class="price">410 €/kk</div>
+                    <button class="btn" onclick="selectApartment('Jämeräntaival 7 B', '410 €/kk')">Valitse tämä</button>
+                </div>
+            </div>
+
+            <div class="apartment-card">
+                <div class="apartment-info">
+                    <h3>Servinkuja 2 A</h3>
+                    <p>Yksiö • 28m²</p>
+                    <span class="tag-distance">🚴 5 min kampukselle</span>
+                </div>
+                <div>
+                    <div class="price">445 €/kk</div>
+                    <button class="btn" onclick="selectApartment('Servinkuja 2 A', '445 €/kk')">Valitse tämä</button>
+                </div>
+            </div>
+
+            <div class="apartment-card">
+                <div class="apartment-info">
+                    <h3>Otaranta 8 D</h3>
+                    <p>Kaksio (omalla parvella) • 32m²</p>
+                    <span class="tag-distance">🚶 8 min kampukselle</span>
+                </div>
+                <div>
+                    <div class="price">490 €/kk</div>
+                    <button class="btn" onclick="selectApartment('Otaranta 8 D', '490 €/kk')">Valitse tämä</button>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn btn-secondary" onclick="goToStep(1)">&larr; Takaisin</button>
+            </div>
+        </div>
+
+        <!-- VAIHE 3: SÄHKÖSOPIMUS -->
+        <div class="step-page" id="step-3">
+            <div class="step-header">
+                <h2 class="step-title">3. Valitse opiskelijasähkö</h2>
+                <p class="step-subtitle">Kytke sähkösopismus valmiiksi muuttoosi.</p>
+            </div>
+
+            <div class="electricity-box selected" onclick="selectElectricity(this, 'Kyllä, Opiskelijasähkö (0 € aloitus)')">
+                <span class="badge-recommended">Suositeltu!</span>
+                <h3 style="color: var(--paavari);">Kyllä, liitä opiskelijasähkö</h3>
+                <p style="font-size: 13px; color: var(--tekstivari);">0 € aloitus- ja avausmaksu. Ekologinen 100% uusiutuva sähkö.</p>
+            </div>
+
+            <div class="electricity-box" onclick="selectElectricity(this, 'Ei kiitos, hoidan itse')">
+                <h4 style="color: var(--tekstivari);">Ei kiitos, hoidan sähkön itse</h4>
+                <p style="font-size: 13px; color: #718096;">Sovit ja solmit sähkösopimuksen itse ennen muuttoa.</p>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn btn-secondary" onclick="goToStep(2)">&larr; Takaisin</button>
+                <button class="btn" onclick="goToStep(4)">Jatka yhteenvetoon &rarr;</button>
+            </div>
+        </div>
+
+        
+        <div class="step-page" id="step-4">
+            <div class="step-header">
+                <h2 class="step-title">4. Tarkista ja allekirjoita</h2>
+                <p class="step-subtitle">Tarkista tiedot ennen sähköistä allekirjoittamista.</p>
+            </div>
+
+            <div class="summary-box">
+                <div class="summary-item">
+                    <span>Valittu kohde:</span>
+                    <strong id="summary-apt">Servinkuja 2 A</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Kuukausivuokra:</span>
+                    <strong id="summary-price">445 €/kk</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Sähkösopimus:</span>
+                    <strong id="summary-elec" style="color: var(--asemointivari);">Kyllä, Opiskelijasähkö</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Vakuusmaksu:</span>
+                    <strong style="color: var(--asemointivari);">0 € (Kotoa-takuu)</strong>
+                </div>
+            </div>
+
+            <div class="checkbox-container">
+                <input type="checkbox" id="terms">
+                <label for="terms" style="font-weight: normal; margin-bottom: 0;">Hyväksyn vuokrasopimuksen ehdot ja sitoudun maksuihin.</label>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn btn-secondary" onclick="goToStep(3)">&larr; Takaisin</button>
+                <button class="btn" style="background-color: var(--asemointivari);" onclick="signContract()">✍️ Allekirjoita sopimus</button>
+            </div>
+        </div>
+    </main>
+       <script>
+        // SOVELLUKSEN TILA (STATE)
+        let selectedApt = "Servinkuja 2 A";
+        let selectedPrice = "445 €/kk";
+        let selectedElec = "Kyllä, Opiskelijasähkö (0 € aloitus)";
+
+        // SIIRTYMINEN VAIHEESTA TOISEEN
+        function goToStep(stepNumber) {
+            // Piilotetaan kaikki sivut
+            const pages = document.querySelectorAll('.step-page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // Poistetaan navigaation aktiivisuus
+            const navItems = document.querySelectorAll('.nav-step');
+            navItems.forEach(item => item.classList.remove('active'));
+
+            // Näytetään haluttu sivu ja päivitetään navigaatio
+            document.getElementById('step-' + stepNumber).classList.add('active');
+            document.getElementById('nav-' + stepNumber).classList.add('active');
+        }
+
+        // BUDJETIN PÄIVITYS
+        function updateBudgetValue(val) {
+            document.getElementById('budget-val').innerText = val + ' €/kk';
+        }
+
+        // VALINTA: ASUMISMUOTO
+        function selectOption(element) {
+            const cards = document.querySelectorAll('.option-card');
+            cards.forEach(card => card.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        // VALINTA: ASUNTO (VAIHE 2)
+        function selectApartment(name, price) {
+            selectedApt = name;
+            selectedPrice = price;
+            
+            // Päivitetään yhteenvedon tiedot
+            document.getElementById('summary-apt').innerText = selectedApt;
+            document.getElementById('summary-price').innerText = selectedPrice;
+            
+            // Siirrytään seuraavaan vaiheeseen
+            goToStep(3);
+        }
+
+        // VALINTA: SÄHKÖSOPIMUS (VAIHE 3)
+        function selectElectricity(element, text) {
+            const boxes = document.querySelectorAll('.electricity-box');
+            boxes.forEach(box => box.classList.remove('selected'));
+            element.classList.add('selected');
+
+            selectedElec = text;
+            document.getElementById('summary-elec').innerText = selectedElec;
+        }
+
+        // SOPIMUKSEN ALLEKIRJOITUS (VAIHE 4)
+        function signContract() {
+            const checkbox = document.getElementById('terms');
+            if (!checkbox.checked) {
+                alert('Hyväksy vuokrasopimuksen ehdot jatkaaksesi.');
+                return;
+            }
+
+            alert('Onnittelut! Vuokrasopimus kohteeseen ' + selectedApt + ' on allekirjoitettu onnistuneesti.');
+        }
+    </script>
+</body>
+</html>
